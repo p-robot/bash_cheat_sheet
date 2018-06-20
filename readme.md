@@ -1,12 +1,26 @@
-bash cheatsheet
+bash cheat-sheet
 =============
+
+## Style guide
+
+* Continue command over a new line using `\` character
+
+
+## Searching
+
+### Searching for text within files
 
 Searching for "chips" within header (`.h`) and c (`.c`) files
 ```bash
 grep chips *.[ch]
 ```
 
-Search current directory recursively for the term "package"
+Include line number and highlight the search term
+```bash
+grep -n --color=auto chips *.[ch]
+```
+
+Search current directory recursively (within all subdirs) for the term "package"
 ```bash
 grep -r package .
 ```
@@ -17,23 +31,76 @@ grep -r library\( .
 ```
 
 
+## Variables
 
-Making new variables
-    expr
-    using {} around variables
-    arrays: declare -a array
+Define and print a string/int variable ([bash variables are untyped](http://tldp.org/LDP/abs/html/untyped.html)): 
 
+* No spaces around equals sign
+* Use dollar sign to recall them
 
-#### `For` loops (of numbers or letters)
 ```bash
-for index in {1..3}; do echo $index; done
-for i in {1..3}; do for j in {a..c}; do echo $i$j; done; done
-for i in {12..14}; do for j in {A..H}; do echo $i$j; done; done
-# C-style
+var=10
+echo $var
+
+var="Some text"
+echo $var
+```
+
+Arithmetic
+```bash
+expr 15 + 222
+
+expr 5 \* 7 # need to escape the multiplication character
+
+expr 7/2
+
+# Bash only does integer division, for division with floats, use `bc`
+echo "7/2" | bc -l
+```
+
+Arithmetic with variables
+```bash
+var1=15; var2=222
+expr $var1 + $var2
+
+var3=5; var4=7
+expr $var3 \* $var4 # need to escape the multiplication character
+```
+
+Arrays
+
+* Defined in circular brackets; space delimited
+* Indexed from 0
+* Return whole list: `${varlist[@]}`
+* Return number of elements in an array: `${#array[@]}`
+
+```bash
+declare -a varlist=(0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0)
+
+echo ${varlist[0]}
+echo ${varlist[7]}
+echo ${#varlist[@]}
+echo ${varlist[@]}
+```
+
+* Using {} around variables
+
+
+## Repeating tasks
+
+#### C-style `for` loops
+```bash
 for ((i=1; i<10; i++)); do echo $i; done
 ```
 
-#### Loop over lists
+#### `for` loops (of a sequence of numbers or letters)
+```bash
+for index in {1..3}; do echo $index; done
+for i in {1..3}; do for j in {a..c}; do echo $i$j; done; done
+for i in {12..14}; do for j in {A..H}; do echo filename_${i}_${j}.csv; done; done
+```
+
+#### Loop over output from `bash` commands
 ```bash
 for i in `ls`; do echo The following file/folder exists: $i; done
 ```
@@ -48,8 +115,6 @@ do
     echo $community
 done
 ```
-
-* Length of an array `${#array[@]}`
 
 #### Iterate over two arrays using a single index (such as when using an array job on a cluster).  
 
@@ -78,7 +143,7 @@ do
 done
 ```
 
-Extra looping ideas ... 
+#### Extra looping ideas ... 
 
 Using `seq`: 
 ```bash
@@ -93,13 +158,15 @@ for index in $(seq $start $stop); do echo $index; done
 seq -s "," -w 0 .05 .1
 ```
 
-while loops
+* while loops
 
-if statements
-elif statements
-else statements
+## Control flow
 
-xargs
+
+* if statements
+* elif statements
+* else statements
+* xargs
 
 # Organising files
 
@@ -211,11 +278,22 @@ awk -v n1="$n1" -v n2="$n2" 'FNR == n1 || FNR == n2' test.txt > output.log
 # Interfacing with Python
 
 
-Input arguments to Python
+* Input arguments to Python.  
+
+* Inputting a bash array into Python with `argparse`.  
 
 
+# Exit status
 
-Inputting a bash array into Python with `argparse`
+* Return the exit status from a command: `$?`
+* **Every** command has an exit status (so probably best practice to assign the exit code for the command of interest to a variable)
+* Check the `man` page of different commands to see what the different values of their exit status mean.  
 
+```bash
+echo "Hello"
+exit_status=$?; echo $exit_status
 
+grep spottieottiedopaliscious *.txt
+echo $? # Probably 1 unless you've got such a file!  
+```
 
