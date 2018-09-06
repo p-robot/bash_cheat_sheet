@@ -1,6 +1,16 @@
 bash cheat-sheet
 =============
 
+**Contents**
+
+* [Searching](#searching)
+* [Variables](#variables)
+* [Repeating tasks](#repeating-tasks)
+* [Control flow](#control-flow)
+* [Organising files](#organising-files)
+* [Interfacing with Python](#interfacing-with-python)
+
+
 ## Style guide
 
 * Continue command over a new line using `\` character
@@ -88,6 +98,16 @@ echo ${varlist[@]}
 
 ## Repeating tasks
 
+```bash
+for i in 49 50 51; do echo $i; done
+
+# Or with spacing
+for word in "Hello" "there" "computer"
+do 
+    echo $word
+done
+```
+
 #### C-style `for` loops
 ```bash
 for ((i=1; i<10; i++)); do echo $i; done
@@ -107,6 +127,15 @@ for i in `ls`; do echo The following file/folder exists: $i; done
 
 #### Iterate over an array
 
+By specifying the array within the loop definition: 
+```bash
+for g in "M" "F"
+do
+    echo $g
+done
+```
+
+By defining an array and then iterating over the elements of that array: 
 ```bash
 declare -a communities=(1 2 5 6 8 9 10 11)
 
@@ -282,8 +311,17 @@ awk -v n1="$n1" -v n2="$n2" 'FNR == n1 || FNR == n2' test.txt > output.log
 
 * Inputting a bash array into Python with `argparse`.  
 
+# Interacting with processes
 
-# Exit status
+## Return process ID of just called command
+
+```bash
+sleep 10 &
+var=$!
+echo $var
+```
+
+## Exit status
 
 * Return the exit status from a command: `$?`
 * **Every** command has an exit status (so probably best practice to assign the exit code for the command of interest to a variable)
@@ -297,3 +335,65 @@ grep spottieottiedopaliscious *.txt
 echo $? # Probably 1 unless you've got such a file!  
 ```
 
+
+# Organising code
+
+## Sourcing commands in a file
+
+* Use `source` to run commands that are stored in another file.  
+
+```bash
+echo "VAR=101" > params.sh
+source params.sh
+echo $VAR
+>> 101
+```
+
+
+
+
+
+3) Find using file names for a subset of the characters in the file name.  
+
+We output several files from the IBM and they've all got filenames of different length.  But they all have "CL" after the initial file name so we can split filenames on this delimiter and return the unique set of file names using bash (and awk).  I find this quite useful cause with a large number of runs the number of files can be very large.  
+
+```bash
+ls ./Output/ | awk -F"CL" '{$0=$1}1' | uniq
+```
+
+
+2) Deleting select file types.  
+
+Within some of the results folders we output too much data (such as the debug scripts).  The find command can delete these files by only saving files which match a particular pattern:
+
+For instance, only keep the files "TypeA*.csv" and "TypeB*.dat" (the exclamation mark is for **not** deleting those files):
+```
+find ./data/HIGH/RESULTS_COMMUNITY2/Output/ \
+    ! -name TypeA*.csv \
+    ! -name TypeB*.dat \
+    -maxdepth 1 \
+    -type f \
+    -delete
+```
+
+
+1) Looping through pathnames to find subdirectory sizes:
+
+I have the folder hierarchy ./data/HIGH/RESULTS_COMMUNITY5 etc where HIGH is the scenario name.  I didn't realise you could use curly brackets **twice** as a loop.  So to find the size of each community-specific subdirectory, the following works well:
+```bash
+du -hs data/{HIGH,LOW}/RESULTS_COMMUNITY{2,5,8,10,14,16,19}
+> 912M data/HIGH/RESULTS_COMMUNITY2
+> 1.1G data/HIGH/RESULTS_COMMUNITY5
+> 1002M data/HIGH/RESULTS_COMMUNITY8
+> 472M data/HIGH/RESULTS_COMMUNITY10
+> 1.1G data/HIGH/RESULTS_COMMUNITY14
+> 1.8G data/HIGH/RESULTS_COMMUNITY16
+> 1.4M data/HIGH/RESULTS_COMMUNITY19
+> 620M data/LOW/RESULTS_COMMUNITY2
+> 1.4G data/LOW/RESULTS_COMMUNITY5
+> 1.1G data/LOW/RESULTS_COMMUNITY8
+> 703M data/LOW/RESULTS_COMMUNITY10
+> 1.1G data/LOW/RESULTS_COMMUNITY14
+> 1.4G data/LOW/RESULTS_COMMUNITY16
+> 1.4M data/LOW/RESULTS_COMMUNITY19
+```
