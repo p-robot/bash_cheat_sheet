@@ -3,7 +3,8 @@ bash cheat-sheet
 
 **Contents**
 
-* [Searching](#searching)
+* [Searching for filenames](#searching-for-filenames)
+* [Searching for text](#searching-for-text)
 * [Variables](#variables)
 * [Repeating tasks](#repeating-tasks)
 * [Control flow](#control-flow)
@@ -16,11 +17,26 @@ bash cheat-sheet
 * Continue command over a new line using `\` character
 
 
-## Searching
+## Searching for filenames
 
-### Searching for text within files
+### Searching for filenames within the current directory
 
-Searching for "chips" within header (`.h`) and c (`.c`) files
+List all `.csv` files within the current directory
+```bash
+ls *.csv
+```
+
+Recursively list all `.csv` files within the current directory and all subdirectories
+```bash
+ls *.csv
+```
+
+
+## Searching for text 
+
+### Searching for text within a select set of files
+
+Searching for the text "chips" within header (`.h`) and c (`.c`) files
 ```bash
 grep chips *.[ch]
 ```
@@ -29,6 +45,8 @@ Include line number and highlight the search term
 ```bash
 grep -n --color=auto chips *.[ch]
 ```
+
+### Searching for text within the file system
 
 Search current directory recursively (within all subdirs) for the term "package"
 ```bash
