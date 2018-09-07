@@ -35,40 +35,6 @@ e=2.718
 echo $e
 ```
 
-**Arithmetic** [
-[1](https://www.tldp.org/LDP/abs/html/arithexp.html), [2](https://stackoverflow.com/questions/18093871/how-can-i-do-division-with-variables-in-a-linux-shell)
-]
-
-```bash
-expr 15 + 222
-
-expr 5 \* 7 # need to escape the multiplication character
-
-expr $((7/2))
-
-# Bash only does integer division, for division with floats, use `bc`
-echo "7/2" | bc -l
-```
-
-
-Arithmetic with variable inputs
-```bash
-var1=15; var2=222
-expr $var1 + $var2
-
-var3=5; var4=7
-expr $var3 \* $var4 # need to escape the multiplication character
-```
-
-
-Assigning output of expression using quotes
-```bash
-var1=15; var2=222
-ans=`expr $var1 + $var2`
-echo $ans
-```
-
-
 **Arrays**
 
 * Defined in circular brackets; space delimited
@@ -85,7 +51,66 @@ echo ${#varlist[@]} # length of the array
 echo ${varlist[@]} # print the whole array (used with loops; see below)
 ```
 
-* Using {} around variables
+
+**Arithmetic** [
+[1](https://www.tldp.org/LDP/abs/html/arithexp.html), [2](https://stackoverflow.com/questions/18093871/how-can-i-do-division-with-variables-in-a-linux-shell)
+]
+
+```bash
+expr 15 + 222
+
+expr 5 \* 7 # need to escape the multiplication character
+
+expr $((7/2))
+
+# Bash only does integer division, for division with floats, use `bc`
+echo "7/2" | bc -l
+```
+
+Arithmetic with variable inputs
+```bash
+var1=15; var2=222
+expr $var1 + $var2
+
+var3=5; var4=7
+expr $var3 \* $var4 # need to escape the multiplication character
+```
+
+Assigning output of expression using quotes
+```bash
+var1=15; var2=222
+ans=`expr $var1 + $var2`
+echo $ans
+```
+
+**String substitution**
+
+* Strings can have substitution applied [[4](http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_10_03.html)]
+* Double forward slash (`//`) to replace all instances, single forward slash ('/') to replace just the first instance.  
+
+```bash
+string="I want to replace all spaces with underscores"
+echo ${string// /_}
+# or 
+echo ${string//" "/"_"}
+>> I_want_to_replace_all_spaces_with_underscores
+
+# Using variables
+filetype="csv"
+filename="cleaned_data.txt"
+echo ${filename/txt/$filetype}
+>> cleaned_data.csv
+```
+
+**Concatenation**
+
+
+[[6](https://stackoverflow.com/questions/4181703/how-to-concatenate-string-variables-in-bash)]
+
+Combining strings
+
+Concatenating to arrays
+
 
 
 ## Repeating tasks
