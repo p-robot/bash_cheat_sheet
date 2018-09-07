@@ -20,7 +20,7 @@ A summary of commands that I commonly use when writing bash scripts.  Sources ar
 
 **Strings, integers, floats**
 
-* bash variables are untyped [0](http://tldp.org/LDP/abs/html/untyped.html)
+* bash variables are untyped [[0](http://tldp.org/LDP/abs/html/untyped.html)]
 * No spaces around equals sign
 * Use dollar sign to recall variable
 
@@ -35,9 +35,9 @@ e=2.718
 echo $e
 ```
 
-**Arithmetic** (
+**Arithmetic** [
 [1](https://www.tldp.org/LDP/abs/html/arithexp.html), [2](https://stackoverflow.com/questions/18093871/how-can-i-do-division-with-variables-in-a-linux-shell)
-)
+]
 
 ```bash
 expr 15 + 222
