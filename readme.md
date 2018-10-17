@@ -20,35 +20,46 @@ A summary of commands that I commonly use when writing bash scripts.  Sources ar
 
 **Strings, integers, floats**
 
+
+Notes:
 * bash variables are untyped [[0](http://tldp.org/LDP/abs/html/untyped.html)]
-* No spaces around equals sign
-* Use dollar sign to recall variable
+* don't use spaces around equals sign
+* the dollar sign in front of variable name is used to reference the variable
 
 ```bash
 var="Some text"
 echo $var
+> Some text
 
 var2=10
 echo $var2
+> 10
 
 e=2.718
 echo $e
+> 2.718
 ```
 
 **Arrays**
 
-* Defined in circular brackets; space delimited
-* Indexed from 0
-* Return whole list: `${varlist[@]}`
-* Return number of elements in an array: `${#array[@]}`
+
+Notes: 
+* defined using circular brackets; space delimited
+* index from 0
+* return the whole array using: `${varlist[@]}`
+* return the number of elements in an array using: `${#array[@]}`
 
 ```bash
 declare -a varlist=(0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0)
 
 echo ${varlist[0]} # first element
+> 0.0
 echo ${varlist[7]} # eighth element
+> 1.4
 echo ${#varlist[@]} # length of the array
+> 11
 echo ${varlist[@]} # print the whole array (used with loops; see below)
+0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0
 ```
 
 
@@ -115,21 +126,25 @@ Concatenating to arrays
 
 ## Repeating tasks
 
-* Defined in a single line (using semicolons)
-* Defined also as a multi-line statement
-* Defined also using a C-style
+1. Defined in a single line (using semicolons)
+2. Defined also as a multi-line statement
+3. Defined also using a C-style
 
 ```bash
-# Defined in a single line using semicolons
+# 1. Defined in a single line using semicolons
 for i in 49 50 51; do echo $i; done
+```
 
-# Or spaced across multiple lines
+```bash
+# 2. Or spaced across multiple lines
 for word in "Hello" "there" "computer"
 do 
     echo $word
 done
+```
 
-# Or using a style similar to the C programming language
+```bash
+# 3. Or using a style similar to the C programming language
 for ((i=1; i<10; i++)); do echo $i; done
 ```
 
