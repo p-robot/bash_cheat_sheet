@@ -15,6 +15,7 @@ A summary of commands that I commonly use when writing bash scripts.  Sources ar
 * [Interfacing with Python](#interfacing-with-python)
 * [Interacting with processes](#interacting-with-processes)
 * [Style guide](#style-guide)
+* [awk examples](#awk-examples)
 
 ## Variables
 
@@ -493,7 +494,54 @@ du -hs data/{HIGH,LOW}/RESULTS_COMMUNITY{2,5,8,10,14,16,19}
 > 1.4M data/LOW/RESULTS_COMMUNITY19
 ```
 
+## Interacting with processes
+
+**Observing a process**
+
+
+Notes:
+* `watch` can be used to check a command every 2 seconds (by default)
+* change refresh rate using `-n` option
+* use ctrl-c to exit
+* use single quotes to use `watch` with a command using a pipe
+
+```bash
+watch qstat
+
+# Update every 5 seconds instead
+watch -n5 qstatf
+
+# Look at jobs associated with the user 'fraser' (refresh every 10 seconds)
+watch -n10 'qsum | grep fraser'
+```
+
+
 
 ## Style guide
 
 * Continue command over a new line using `\` character
+
+
+## awk examples
+
+* Replace "A" with "1" in each line, skip lines that have an underscore in them:
+
+```bash
+echo ">NAME_123_CONSENSUS
+GACTATACA
+ATACTAGA
+>NAME2_48_TEST
+ATAGCGA" > test.txt
+
+# Option 1
+awk '!/_/{ gsub("A", "1") }1' test.txt
+
+# Option 2
+awk '{ for(j=1; j<=NF; j++) if ($j ~ "_") print; else { gsub("A","1",$0); print } }' test.txt
+
+# Option 3
+awk '{ if ($0 ~ "_") print; else {gsub("A", "1", $0); print} }' test.txt
+```
+
+
+
