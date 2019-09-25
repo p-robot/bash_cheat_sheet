@@ -134,6 +134,8 @@ Concatenating to arrays
 ```bash
 # 1. Defined in a single line using semicolons
 for i in 49 50 51; do echo $i; done
+
+for i in AA "B" 73.2; do echo $i; done
 ```
 
 ```bash
@@ -162,11 +164,28 @@ for i in {49,50,51}; do echo $i; done
 for index in {1..3}; do echo $index; done
 for i in {1..3}; do for j in {a..c}; do echo $i$j; done; done
 for i in {12..14}; do for j in {A..H}; do echo filename_${i}_${j}.csv; done; done
+
+for index in {a..f}; do echo $index; done
+for index in {G..Q}; do echo $index; done
+
+# Using seq to loop through integers
+start=10; stop=13
+for index in $(seq $start $stop); do echo $index; done
+
+# Using seq to loop through integers with a certain increment
+start=10; stop=50; increment=4
+for index in $(seq $start $increment $stop); do echo $index; done
+
+# Using seq to loop through a regularly spaced grid of floats
+for index in $(seq -w 0 .05 .3); do echo $index; done
 ```
 
 **Loop over output from other `bash` commands**
 ```bash
 for i in `ls`; do echo The following file/folder exists: $i; done
+
+dirname="/bin"
+for i in $(ls $dirname); do echo $i; done
 ```
 
 **Iterate over an array**
@@ -215,21 +234,6 @@ for c in $(seq 1 $combinations)
 do
     echo $c
 done
-```
-
-**Extra looping ideas**
-
-Using `seq`: 
-```bash
-start=10; stop=13
-for index in $(seq $start $stop); do echo $index; done
-
-start="A"; stop="D"
-for index in $(seq $start $stop); do echo $index; done
-```
-
-```bash
-seq -s "," -w 0 .05 .1
 ```
 
 * while loops
