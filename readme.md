@@ -9,6 +9,7 @@ A summary of commands that I commonly use when writing bash scripts.  Sources ar
 * [Variables](#variables)
 * [Repeating tasks](#repeating-tasks)
 * [Control flow](#control-flow)
+* [Viewing files](#viewing-files)
 * [Searching for filenames](#searching-for-filenames)
 * [Searching for text](#searching-for-text)
 * [Organising files](#organising-files)
@@ -267,6 +268,49 @@ copy_parameters "nine" 89
 
 
 ## Organising files
+
+
+## Viewing files
+
+Create a test file for viewing (space-delimited file)
+```bash
+echo "Name Value Date" > test_file.txt
+echo "Rabbit 1.4 2020-02-03" >> test_file.txt
+echo "Ox 1.9 2020-03-01" >> test_file.txt
+echo "Dragon 7.4 2020-02-29" >> test_file.txt
+```
+
+View space-delimited file nicely in bash:
+
+```bash
+cat test_file.txt | column -t  | less -S
+```
+
+Have this command as a function
+```bash
+seefile(){
+	cat "$1" | column -t  | less -S
+}
+
+# Usage (press q to exit viewing mode):
+seefile test_file.txt
+```
+
+
+Create a test file for viewing (command-separated file)
+```bash
+echo "Name,Value,Date" > test_file.csv
+echo "Rabbit,1.4,2020-02-03" >> test_file.csv
+echo "Ox,1.9,2020-03-01" >> test_file.csv
+echo "Dragon,7.4,2020-02-29" >> test_file.csv
+```
+
+View comma-separated files (CSV) nicely in bash:
+
+```
+cat test_file.csv | column -t -s, | less -S
+```
+
 
 ## Searching for filenames
 
