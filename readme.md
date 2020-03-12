@@ -266,6 +266,34 @@ function copy_parameters {
 copy_parameters "nine" 89
 ```
 
+## Bash scripts
+
+**Input arguments**
+
+* Input arguments to a bash scripts are accessed with `$1`, `$2`, and so on
+* The name of the script is accessed as `$0`
+* The number of input arguments are accessed via `$#`
+```bash
+#!/bin/bash
+arg1=$1
+arg2=$2
+arg3=$3
+```
+
+
+**Providing helpful exit message**
+
+* If no input arguments are given (but some need to be) then the following could be used to exit with a help message.  
+
+```bash
+#!/bin/bash
+if [ $# -eq 0 ]
+then
+    echo "First input argument needs to be <community_id>"
+    exit 1
+fi
+```
+
 
 ## Organising files
 
